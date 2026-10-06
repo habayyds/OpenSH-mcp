@@ -429,12 +429,12 @@ def handle_message(req):
     if method and method.startswith("notifications/"):
         return None
     if method == "discover":
-    return {"jsonrpc": "2.0", "id": rid, "result": {
-        "supportedVersions": SUPPORTED_VERSIONS,
-        "capabilities": {
-            "tools": {}
-        }
-    }}
+        return {"jsonrpc": "2.0", "id": rid, "result": {
+            "supportedVersions": SUPPORTED_VERSIONS,
+            "capabilities": {
+                "tools": {}
+            }
+        }}
     if method == "initialize":
         pv = params.get("protocolVersion") or "2024-11-05"
         return {"jsonrpc": "2.0", "id": rid, "result": {

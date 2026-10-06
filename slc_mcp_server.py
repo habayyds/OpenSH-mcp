@@ -418,7 +418,7 @@ INSTRUCTIONS = """\
 - 高频调用请控制节奏，避免触发限流。
 """
 
-
+SUPPORTED_VERSIONS = ["2025-06-18", "2025-03-26", "2024-11-05"]
 def handle_message(req):
     """处理单条 JSON-RPC 请求，返回响应 dict；通知类（无 id）返回 None。"""
     if not isinstance(req, dict):
@@ -428,10 +428,18 @@ def handle_message(req):
     params = req.get("params") or {}
     if method and method.startswith("notifications/"):
         return None
+    if method == "discover":
+    return {"jsonrpc": "2.0", "id": rid, "result": {
+        "supportedVersions": SUPPORTED_VERSIONS,
+        "capabilities": {
+            "tools": {}
+        }
+    }}
     if method == "initialize":
         pv = params.get("protocolVersion") or "2024-11-05"
         return {"jsonrpc": "2.0", "id": rid, "result": {
             "protocolVersion": pv,
+            "supportedVersions": SUPPORTED_VERSIONS,
             "capabilities": {"tools": {}},
             "serverInfo": {
                 "name": "shanghai-library-opendata",
